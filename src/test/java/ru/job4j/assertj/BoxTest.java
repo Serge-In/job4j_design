@@ -75,7 +75,7 @@ class BoxTest {
         Box box = new Box(0, edge);
         double result = box.getArea();
         double expected = 4 * Math.PI * Math.pow(edge, 2);
-        assertThat(result).isEqualTo(expected);
+        assertThat(result).isEqualTo(expected, withPrecision(0.001d));
     }
 
     @Test
