@@ -82,6 +82,6 @@ class BoxTest {
     void getAreaForUnknown() {
         Box box = new Box(5, 2);
         double result = box.getArea();
-        assertThat(result).isEqualTo(0);
+        assertThat(result).isEqualTo(0, withPrecision(0.001d));
     }
 }
