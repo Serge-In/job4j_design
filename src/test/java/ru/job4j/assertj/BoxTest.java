@@ -38,14 +38,14 @@ class BoxTest {
     void isThisUnknown() {
         Box box = new Box(2, 2);
         String result = box.whatsThis();
-        assertThat(result).isEqualTo( "Unknown object");
+        assertThat(result).isEqualTo("Unknown object");
     }
 
     @Test
     void getNumberOfVertices() {
         Box box = new Box(8, 2);
         int result = box.getNumberOfVertices();
-        assertThat(result).isEqualTo( 8);
+        assertThat(result).isEqualTo(8);
     }
 
     @Test
