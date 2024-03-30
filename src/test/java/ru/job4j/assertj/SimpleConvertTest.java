@@ -67,14 +67,14 @@ class SimpleConvertTest {
 
     @Test
     void checkConvertStringsToMap() {
-        Map <String, Integer> expected = Map.of(
+        Map<String, Integer> expected = Map.of(
                  "first",  0,
                  "second", 1,
                  "three",  2,
                  "four", 3,
                  "five", 4);
         SimpleConvert simpleConvert = new SimpleConvert();
-        Map <String, Integer> map = simpleConvert.toMap("first", "second", "three", "four", "five");
+        Map<String, Integer> map = simpleConvert.toMap("first", "second", "three", "four", "five");
         assertThat(map).hasSize(5)
                 .isNotEmpty()
                 .isEqualTo(expected)

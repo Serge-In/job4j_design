@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 /**
  * 2024-03-30
  * 5. Утверждения с коллекциями [#504885]
+ *  Создайте тестовый класс SimpleConvertTest.
  */
 public class SimpleConvert {
 
