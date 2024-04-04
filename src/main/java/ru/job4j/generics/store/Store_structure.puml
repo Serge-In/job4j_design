@@ -1,0 +1,218 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "ru.job4j.generics.store.Store",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_101295923 { 
+   	label=job4j
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1471669719 { 
+   	label=generics
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Base259099435[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Base</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   id: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MemStore259099435[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MemStore&lt;T extends Base&gt;</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   storage: Map&lt;String, T&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(model: T)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ delete(id: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findById(id: String): T</TD></TR>
+<TR><TD ALIGN="LEFT" >+ replace(id: String, model: T): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Role259099435[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Role</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   roleName: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+RoleStore259099435[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)RoleStore</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   store: Store&lt;Role&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(model: Role)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ delete(id: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findById(id: String): Role</TD></TR>
+<TR><TD ALIGN="LEFT" >+ replace(id: String, model: Role): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Store259099435[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(I)Store&lt;T extends Base&gt;</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(model: T)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ delete(id: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findById(id: String): T</TD></TR>
+<TR><TD ALIGN="LEFT" >+ replace(id: String, model: T): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#F1E5FD"
+];
+
+User259099435[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)User</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   username: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+UserStore259099435[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)UserStore</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   store: Store&lt;User&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(model: User)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ delete(id: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findById(id: String): User</TD></TR>
+<TR><TD ALIGN="LEFT" >+ replace(id: String, model: User): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+Base259099435 -> Role259099435[arrowhead=none, arrowtail=empty, dir=both];
+Base259099435 -> User259099435[arrowhead=none, arrowtail=empty, dir=both];
+RoleStore259099435 -> Role259099435[label="store
+[0..1]"];
+RoleStore259099435 -> Store259099435[label="store
+[0..1]"];
+Store259099435 -> MemStore259099435[arrowhead=none, arrowtail=empty, dir=both];
+Store259099435 -> RoleStore259099435[arrowhead=none, arrowtail=empty, dir=both];
+Store259099435 -> UserStore259099435[arrowhead=none, arrowtail=empty, dir=both];
+UserStore259099435 -> Store259099435[label="store
+[0..1]"];
+UserStore259099435 -> User259099435[label="store
+[0..1]"];
+    
+}
+@enduml

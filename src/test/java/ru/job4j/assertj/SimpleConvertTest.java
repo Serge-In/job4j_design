@@ -34,10 +34,10 @@ class SimpleConvertTest {
 
     @Test
     void checkConvertStringsToList() {
-        List expected = List.of("first", "second", "three", "four", "five");
+        List<String> expected = List.of("first", "second", "three", "four", "five");
 
         SimpleConvert simpleConvert = new SimpleConvert();
-        List list = simpleConvert.toList("first", "second", "three", "four", "five");
+        List<String> list = simpleConvert.toList("first", "second", "three", "four", "five");
         assertThat(list)
                 .isEqualTo(expected)
                 .hasSize(5)
@@ -51,10 +51,10 @@ class SimpleConvertTest {
 
     @Test
     void checkConvertStringsToSet() {
-        Set expected = Set.of("first", "second", "three", "four", "five");
+        Set<String> expected = Set.of("first", "second", "three", "four", "five");
 
         SimpleConvert simpleConvert = new SimpleConvert();
-        Set set = simpleConvert.toSet("first", "second", "three", "four", "five");
+        Set<String> set = simpleConvert.toSet("first", "second", "three", "four", "five");
         assertThat(set)
                 .isEqualTo(expected)
                 .hasSize(5)
