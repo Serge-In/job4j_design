@@ -36,7 +36,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public void add(T value) {
-        if (size == container.length){
+        if (size == container.length) {
             this.capacityUp();
         }
         container[size++] = value;
@@ -72,7 +72,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
         T[] temp = (T[]) new Object[newCapacity];
         System.arraycopy(container, 0, temp, 0, index);
-        System.arraycopy(container, index + 1, temp, index ,container.length - index - 1);
+        System.arraycopy(container, index + 1, temp, index, container.length - index - 1);
 
         container = temp;
         size--;
