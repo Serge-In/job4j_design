@@ -13,14 +13,20 @@ import java.util.*;
  * По такому образу работает ArrayList.
  * 1. Внутри контейнер должен базироваться на массиве Object[] container.
  * 2. Использовать стандартные коллекции JDK (ArrayList, LinkedList и т.д.) запрещено.
- * 3. Контейнер должен быть динамическим, т.е. при полном заполнении увеличиваться.
- * Увеличивать надо массив в два раза, потому что расширение это тяжелая операция.
- * Расширение массива вынесите в отдельный метод.
- * 4. Итератор должен реализовывать fail-fast поведение, т.е. если с момента создания итератора в коллекцию добавили новый элемент,
- * итератор должен кидать ConcurrentModificationException. Это достигается через введение счетчика изменений - modCount.
- * Каждая операция, которая структурно модифицирует (добавление и удаление элементов) коллекцию должна увеличивать этот счетчик.
+ * 3. Контейнер должен быть динамическим, т.е. при полном заполнении увеличиваться в два раза,
+ * потому что расширение это тяжелая операция. Ссылка при этом остается той же, но ссылается на другой массив,
+ * для этого удобно использовать метод Arrays.copyOf(). Расширение массива вынесите в отдельный метод.
+ * 4. Итератор должен реализовывать fail-fast поведение, т.е. если с момента создания итератора
+ * в коллекцию добавили новый элемент, итератор должен кидать ConcurrentModificationException.
+ * Это достигается через введение счетчика изменений - modCount. Каждая операция, которая структурно
+ * модифицирует (добавление и удаление элементов) коллекцию должна увеличивать этот счетчик.
  * В свою очередь итератор запоминает значение этого счетчика на момент своего создания (expectedModCount),
- * а затем на каждой итерации сравнивает сохраненное значение, с текущим значением поля modCount, если они отличаются, то генерируется исключение
+ * а затем на каждой итерации сравнивает сохраненное значение, с текущим значением поля modCount,
+ * если они отличаются, то генерируется исключение
+ * 5. Списки работают с индексами, поэтому важно понимать, как делается валидация индекса. Валидация индекса это проверка,
+ * что индекс находится в диапазоне [0, size - 1].
+ * Если находится вне этого диапазона, то происходит выброс исключения IndexOutOfBoundsException.
+ * Objects.checkIndex(index, array.length);
  */
 public class SimpleArrayList<T> implements SimpleList<T> {
 
@@ -29,34 +35,28 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     private int modCount;
 
     public SimpleArrayList(int capacity) {
-        this.container = (T[]) new Object[capacity];
-        this.size = 0;
-        this.modCount = 0;
+        container = (T[]) new Object[capacity];
+        size = 0;
+        modCount = 0;
     }
 
     @Override
     public void add(T value) {
         if (size == container.length) {
-            this.capacityUp();
+            capacityUp();
         }
         container[size++] = value;
         modCount++;
     }
 
-    public void capacityUp() {
+    private void capacityUp() {
         int newCapacity = container.length == 0 ? 3 : container.length * 2;
-        T[] temp = container.clone();
-        container = (T[]) new Object[newCapacity];
-
-        for (int i = 0; i < temp.length; i++) {
-            container[i] = temp[i];
-        }
+        container = Arrays.copyOf(container, newCapacity);
     }
 
     @Override
     public T set(int index, T newValue) {
-        Objects.checkIndex(index, this.size);
-
+        Objects.checkIndex(index, size);
             T oldValue = container[index];
             container[index] = newValue;
             return oldValue;
@@ -64,17 +64,9 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public T remove(int index) {
-        Objects.checkIndex(index, this.size);
-
+        Objects.checkIndex(index, size);
         T removed = container[index];
-
-        int newCapacity = Math.max(container.length - 1, 3);
-
-        T[] temp = (T[]) new Object[newCapacity];
-        System.arraycopy(container, 0, temp, 0, index);
-        System.arraycopy(container, index + 1, temp, index, container.length - index - 1);
-
-        container = temp;
+        System.arraycopy(container, index + 1, container, index, container.length - index - 1);
         size--;
         modCount++;
         return removed;
@@ -82,7 +74,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public T get(int index) {
-        Objects.checkIndex(index, this.size);
+        Objects.checkIndex(index, size);
         return container[index];
     }
 
@@ -101,15 +93,15 @@ public class SimpleArrayList<T> implements SimpleList<T> {
                 if (modCount != expectedModCount) {
                     throw new ConcurrentModificationException();
                 }
-                return size != 0 && current < container.length;
+                return current < size;
             }
 
             @Override
             public T next() {
-                if (hasNext()) {
-                    return container[current++];
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
                 }
-                throw new NoSuchElementException();
+                return container[current++];
             }
         };
     }
